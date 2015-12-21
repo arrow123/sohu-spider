@@ -39,11 +39,8 @@ def save_imgs(soup, path, now, text):
 			if not os.path.exists(path+now+'/images/'):
 				os.makedirs(path+now+'/images/')
 			urllib.urlretrieve(url , path+now+'/images/'+name)
-			# text = save_file(item, path+now, 'images', text)
-			# data.append(item['original'])
 		if item.has_attr('src') and item['src'] not in data:
 			text = save_file(item['src'], path+now, 'images', text)
-			# data.append(item['src'])
 	return text
 
 def save_css(soup, path, now, text):
@@ -52,7 +49,6 @@ def save_css(soup, path, now, text):
 	for item in css:
 		if item.has_attr('href') and item['href'] not in data:
 			text = save_file(item['href'], path+now, 'css', text)
-			# data.append(item['href'])
 	return text
 
 def save_js(soup, path, now, text):
@@ -61,7 +57,6 @@ def save_js(soup, path, now, text):
 	for item in js:
 		if item.has_attr('src') and item['src'] not in data:
 			text = save_file(item['src'], path+now, 'js', text)
-			# data.append(item['src'])
 	return text
 
 temp = True
