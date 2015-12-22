@@ -1,10 +1,12 @@
+# -*- coding: utf-8 -*-
+
 from bs4 import BeautifulSoup
 import urllib, os, time, re, sys
 
 # 默认参数
 url = 'http://m.sohu.com'
 interval = 60
-path = '/tmp/backup/'
+path = '/tmp/backup'
 
 # 获取参数
 if __name__ == '__main__':
@@ -36,11 +38,11 @@ def save_imgs(soup, path, now, text):
 			if item.has_attr('data-webp') and item['data-webp'] == '1':
 				s = s.replace('data-webp="1"', '')
 			text = text.replace(str(item), s)
-			if not os.path.exists(path+now+'/images/'):
-				os.makedirs(path+now+'/images/')
-			urllib.urlretrieve(url , path+now+'/images/'+name)
+			if not os.path.exists(path+'/'+now+'/images/'):
+				os.makedirs(path+'/'+now+'/images/')
+			urllib.urlretrieve(url , path+'/'+now+'/images/'+name)
 		if item.has_attr('src') and item['src'] not in data:
-			text = save_file(item['src'], path+now, 'images', text)
+			text = save_file(item['src'], path+'/'+now, 'images', text)
 	return text
 
 def save_css(soup, path, now, text):
@@ -48,7 +50,7 @@ def save_css(soup, path, now, text):
 	data = []
 	for item in css:
 		if item.has_attr('href') and item['href'] not in data:
-			text = save_file(item['href'], path+now, 'css', text)
+			text = save_file(item['href'], path+'/'+now, 'css', text)
 	return text
 
 def save_js(soup, path, now, text):
@@ -56,7 +58,7 @@ def save_js(soup, path, now, text):
 	data = []
 	for item in js:
 		if item.has_attr('src') and item['src'] not in data:
-			text = save_file(item['src'], path+now, 'js', text)
+			text = save_file(item['src'], path+'/'+now, 'js', text)
 	return text
 
 temp = True
@@ -72,7 +74,7 @@ while temp:
 	text = save_css(soup, path, now, text)
 	text = save_js(soup, path, now, text)
 
-	fp = open(path+now+"/index.html", 'w')
+	fp = open(path+'/'+now+"/index.html", 'w')
 	fp.write(text)
 	fp.close() 
 
